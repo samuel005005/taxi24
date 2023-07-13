@@ -55,6 +55,9 @@ export class DriverRepositoryMongo implements DriverRepository {
     async currentLocationDriver(idDriver: string, latitud: string, longitud: string) {
         try {
             const driver = await this.findDriverEntity(idDriver);
+     
+            // const locations = await this.locationDriverEntity.updateMany({driver: '64b05a0b585f53660588bd09'}, {$set: {status: "I"}});
+            // console.log(driver)
             await this.locationDriverEntity.create({ driver, latitud, longitud });
         } catch (error) {
             this.handleException(error, `Can't current location Driver, please contact the system administrator`);
@@ -65,10 +68,9 @@ export class DriverRepositoryMongo implements DriverRepository {
         if (error.code == 11000) {
             throw new BadRequestException(`Driver exists in db ${JSON.stringify(error.keyValue)}`)
         } else {
-            if (error.respone == 404) {
+            if (error.status == 404) {
                 throw new NotFoundException(error.message);
             } else {
-                console.log(error)
                 throw new InternalServerErrorException(message)
             }
         }

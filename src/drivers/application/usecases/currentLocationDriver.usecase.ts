@@ -8,6 +8,6 @@ export default class CurrentLocationDriverUseCase {
   ) { }
 
   public handler(idDriver: string, latitud: string, longitud: string) {
-    this.driverRepository.currentLocationDriver(idDriver, latitud, longitud);
+    return this.driverRepository.currentLocationDriver(idDriver, latitud, longitud);
   }
 }

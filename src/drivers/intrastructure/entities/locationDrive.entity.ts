@@ -7,7 +7,7 @@ import { DriverEntity } from "./driver.entity";
 export class DriverLocationEntity extends mongoose.Document {
 
     @Prop({ type: mongoose.Types.ObjectId, ref: 'DriverEntity' })
-    driver: DriverEntity;
+    driver: mongoose.Types.ObjectId;
 
     @Prop({ required: true })
     latitud: string;
