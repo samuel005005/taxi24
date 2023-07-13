@@ -6,6 +6,7 @@ import { DriverService } from './services/driver.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { DriverEntity, DriverSchema } from './entities/driver.entity';
 import { DriverRepositoryMongo } from './repositories/driver.repository';
+import { DriverLocationEntity, DriverLocationSchema } from './entities/locationDrive.entity';
 @Module({
     providers: [
         DriverService,
@@ -13,10 +14,16 @@ import { DriverRepositoryMongo } from './repositories/driver.repository';
     ],
     imports: [
         ApplicationModule,
-        MongooseModule.forFeature([{
-            name: DriverEntity.name,
-            schema: DriverSchema,
-          }]),
+        MongooseModule.forFeature([
+            {
+                name: DriverEntity.name,
+                schema: DriverSchema,
+            },
+            {
+                name: DriverLocationEntity.name,
+                schema: DriverLocationSchema,
+            }
+        ]),
     ],
     controllers: [
         DriverController

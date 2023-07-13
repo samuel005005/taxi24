@@ -5,16 +5,17 @@ import { Model, isValidObjectId } from "mongoose";
 import { DriverRepository } from "src/drivers/domain/contracts/repositories/driver.repository";
 import Driver from "src/drivers/domain/models/driver.model";
 import DriverMapper from "../mappers/driver.mapper";
+import { DriverLocationEntity } from "../entities/locationDrive.entity";
 
 @Injectable()
 export class DriverRepositoryMongo implements DriverRepository {
     constructor(
-        @InjectModel(DriverEntity.name)
-        private readonly driverEntity: Model<DriverEntity>
+        @InjectModel(DriverEntity.name) private readonly driverEntity: Model<DriverEntity>,
+        @InjectModel(DriverLocationEntity.name) private readonly locationDriverEntity: Model<DriverLocationEntity>
     ) { }
 
     async findAll(): Promise<Driver[]> {
-        const drivers = await this.driverEntity.find();
+        const drivers = await this.driverEntity.find({ status: 'A' });
         return DriverMapper.EntitiesToDomains(drivers);
 
     }
@@ -24,27 +25,45 @@ export class DriverRepositoryMongo implements DriverRepository {
             const driverModel = await this.driverEntity.create(driver);
             return DriverMapper.EntityToDomain(driverModel);
         } catch (error) {
-            this.handleException(error, `Can't create Driver`);
+            this.handleException(error, `Can't create Driver, please contact the system administrator`);
         }
     }
 
     async findOne(term: string): Promise<Driver> {
-       const driver = await this.findDriverEntity(term);
-       return DriverMapper.EntityToDomain(driver);
-
+        const driver = await this.findDriverEntity(term);
+        return DriverMapper.EntityToDomain(driver);
     }
 
-    update(term: string, driver: Driver): Promise<Driver> {
-        throw new Error("Method not implemented.");
+    async update(term: string, driver: Driver): Promise<Driver> {
+        try {
+            const driverModel = await this.findDriverEntity(term);
+            await driverModel.updateOne(driver, { new: true });
+            return DriverMapper.EntityToDomain(driverModel);
+        } catch (error) {
+            this.handleException(error, `Can't update Driver, please contact the system administrator`);
+        }
     }
-    
-    remove(id: string): Promise<Driver> {
-        throw new Error("Method not implemented.");
+
+    async remove(id: string): Promise<Driver> {
+        const { deletedCount } = await this.driverEntity.deleteOne({ _id: id });
+        if (deletedCount === 0) {
+            throw new BadRequestException(`Pokemon with id "${id}" not found`)
+        }
+        return;
+    }
+
+    async currentLocationDriver(idDriver: string, latitud: string, longitud: string) {
+        try {
+            const driver = await this.findDriverEntity(idDriver);
+            await this.locationDriverEntity.create({ driver, latitud, longitud });
+        } catch (error) {
+            this.handleException(error, `Can't current location Driver, please contact the system administrator`);
+        }
     }
 
     private handleException(error: any, message: string) {
         if (error.code == 11000) {
-            throw new BadRequestException(`Pokemon exists in db ${JSON.stringify(error.keyValue)}`)
+            throw new BadRequestException(`Driver exists in db ${JSON.stringify(error.keyValue)}`)
         } else {
             if (error.respone == 404) {
                 throw new NotFoundException(error.message);
@@ -55,26 +74,21 @@ export class DriverRepositoryMongo implements DriverRepository {
         }
     }
 
-
     private async findDriverEntity(term: string): Promise<DriverEntity> {
 
-        let pokemon: DriverEntity;
-        // Validate if is a number
-        if (!isNaN(+term)) {
-            pokemon = await this.driverEntity.findOne({ no: term });
-        }
+        let driver: DriverEntity;
 
         // Validate if is a mongo a Id
-        if (!pokemon && isValidObjectId(term)) {
-            pokemon = await this.driverEntity.findById(term);
+        if (!driver && isValidObjectId(term)) {
+            driver = await this.driverEntity.findById({ _id: term, status: "A" });
         }
-        if (!pokemon) {
-            pokemon = await this.driverEntity.findOne({ name: new RegExp(term.toLocaleLowerCase().trim(), 'i') });
+        if (!driver) {
+            driver = await this.driverEntity.findOne({ name: new RegExp(term, 'i'), status: 'A' });
         }
-        if (!pokemon)
+        if (!driver)
             throw new NotFoundException(`Driver with id,name or no "${term}" not found`);
 
-        return pokemon;
+        return driver;
     }
 
 }

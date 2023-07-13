@@ -7,7 +7,7 @@ export default class CreateDriverUseCase {
    private readonly driverRepository: DriverRepository,
   ) {}
 
-  public handler(pokemon: Driver): Promise<Driver> {
-    return this.driverRepository.create(pokemon);
+  public handler(driver: Driver): Promise<Driver> {
+    return this.driverRepository.create(driver);
   }
 }

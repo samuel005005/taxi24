@@ -6,4 +6,5 @@ export interface DriverRepository {
     findOne(term: string): Promise<Driver | null>;
     update(term: string, driver: Driver): Promise<Driver>;
     remove(id: string): Promise<Driver | null>;
+    currentLocationDriver(idDriver: string, latitud: string, longitud: string):void;
 }
