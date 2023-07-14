@@ -4,6 +4,15 @@ import { UpdateDriverDto } from '../dto/update-driver.dto';
 import { DriverEntity } from '../entities/driver.entity';
 
 export default class DriverMapper {
+  public static DomainToEntity(driver: Driver): DriverEntity {
+    const driverEntity = new DriverEntity();
+    driverEntity.name = driver.getName;
+    driverEntity.lastName = driver.getLastName;
+    driverEntity.phoneNumber = driver.getPhoneNumber;
+    driverEntity.driverLicense = driver.getDriverLicense;
+    return driverEntity;
+  }
+
   public static EntityToDomain(driverEntity: DriverEntity) {
     const driver = new Driver(
       driverEntity.name,

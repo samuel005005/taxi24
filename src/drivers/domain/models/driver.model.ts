@@ -9,7 +9,7 @@ export default class Driver {
 
   private readonly driverLicense: string;
 
-  private readonly status: string;
+  private readonly status?: string;
 
   private readonly available: boolean;
 
@@ -29,5 +29,17 @@ export default class Driver {
     this.driverLicense = driverLicense;
     this.status = status;
     this.available = available;
+  }
+  get getName(): string {
+    return this.name;
+  }
+  get getLastName(): string {
+    return this.lastName;
+  }
+  get getPhoneNumber(): string {
+    return this.phoneNumber;
+  }
+  get getDriverLicense(): string {
+    return this.driverLicense;
   }
 }

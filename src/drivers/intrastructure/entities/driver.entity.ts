@@ -1,7 +1,7 @@
 import { Column, DataType, Model, Table } from 'sequelize-typescript';
 
-@Table({ tableName: 'users' })
-export class DriverEntity extends Model<DriverEntity> {
+@Table
+export class DriverEntity extends Model {
   @Column({ primaryKey: true, autoIncrement: true })
   id: number;
 
@@ -14,10 +14,10 @@ export class DriverEntity extends Model<DriverEntity> {
   @Column({ type: DataType.STRING, allowNull: false })
   phoneNumber: string;
 
-  @Column({ type: DataType.STRING, allowNull: false })
+  @Column({ type: DataType.STRING, allowNull: false, unique: true })
   driverLicense: string;
 
-  @Column({ type: DataType.STRING, allowNull: false })
+  @Column({ type: DataType.STRING, allowNull: false, defaultValue: true })
   available: boolean;
 
   @Column({ type: DataType.STRING, allowNull: false, defaultValue: 'A' })

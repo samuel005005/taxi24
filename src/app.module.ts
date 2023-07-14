@@ -9,9 +9,9 @@ import { SequelizeModule } from '@nestjs/sequelize';
       dialect: 'postgres',
       host: 'localhost',
       port: 5432,
-      username: 'cosjiomd',
-      password: 'hOJgixVj_D-1KzAS0ys9jtc2qkOMITZ1',
-      database: 'taxi24',
+      username: 'postgres',
+      password: '123456',
+      database: 'postgres',
       autoLoadModels: true,
       synchronize: true, // Solo para desarrollo, deshabilitar en producción
     }),

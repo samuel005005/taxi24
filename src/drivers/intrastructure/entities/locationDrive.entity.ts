@@ -20,17 +20,14 @@ export class DriverLocationEntity extends Model<DriverLocationEntity> {
   })
   driver: number;
 
-  @Column({ type: DataType.STRING, allowNull: false })
+  @Column({ type: DataType.NUMBER, allowNull: false })
   latitude: string;
 
-  @Column({ type: DataType.STRING, allowNull: false })
+  @Column({ type: DataType.NUMBER, allowNull: false })
   longitude: string;
 
   @Column({ type: DataType.STRING, allowNull: false, defaultValue: 'A' })
   status: string;
-
-  @Column({ type: DataType.STRING, allowNull: false, defaultValue: Date.now })
-  dateAt: Date;
 
   @BelongsTo(() => DriverEntity)
   user: DriverEntity;

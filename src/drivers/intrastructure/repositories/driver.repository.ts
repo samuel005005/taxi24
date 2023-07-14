@@ -27,15 +27,17 @@ export class DriverRepositoryPostgrest implements DriverRepository {
   }
 
   async create(driver: Driver): Promise<Driver> {
-    // try {
-    //   const driverModel = await this.driverEntity.create(driver);
-    //   return DriverMapper.EntityToDomain(driverModel);
-    // } catch (error) {
-    //   this.handleException(
-    //     error,
-    //     `Can't create Driver, please contact the system administrator`,
-    //   );
-    // }
+    try {
+      const driverModel = await this.driverEntity.create(
+        DriverMapper.DomainToEntity(driver).dataValues,
+      );
+      return DriverMapper.EntityToDomain(driverModel);
+    } catch (error) {
+      this.handleException(
+        error,
+        `Can't create Driver, please contact the system administrator`,
+      );
+    }
 
     return;
   }
@@ -46,24 +48,24 @@ export class DriverRepositoryPostgrest implements DriverRepository {
   }
 
   async update(term: string, driver: Driver): Promise<Driver> {
-    // try {
-    //   const driverModel = await this.findDriverEntity(term);
-    //   await driverModel.updateOne(driver, { new: true });
-    //   return DriverMapper.EntityToDomain(driverModel);
-    // } catch (error) {
-    //   this.handleException(
-    //     error,
-    //     `Can't update Driver, please contact the system administrator`,
-    //   );
-    // }
+    try {
+      const driverModel = await this.findDriverEntity(term);
+      await driverModel.update(driver);
+      return DriverMapper.EntityToDomain(driverModel);
+    } catch (error) {
+      this.handleException(
+        error,
+        `Can't update Driver, please contact the system administrator`,
+      );
+    }
     return;
   }
 
   async remove(id: string): Promise<Driver> {
-    // const { deletedCount } = await this.driverEntity.deleteOne({ _id: id });
-    // if (deletedCount === 0) {
-    //   throw new BadRequestException(`Pokemon with id "${id}" not found`);
-    // }
+    const deletedCount = await this.driverEntity.destroy({ where: { id } });
+    if (deletedCount === 0) {
+      throw new BadRequestException(`Pokemon with id "${id}" not found`);
+    }
     return;
   }
 
@@ -72,31 +74,33 @@ export class DriverRepositoryPostgrest implements DriverRepository {
     latitude: string,
     longitude: string,
   ) {
-    // try {
-    //   const driver = await this.findDriverEntity(idDriver);
-    //   await this.locationDriverEntity.updateMany(
-    //     { driver: driver.id },
-    //     { $set: { status: 'I' } },
-    //   );
-    //   await this.locationDriverEntity.create({
-    //     driver: driver.id,
-    //     latitude,
-    //     longitude,
-    //   });
-    // } catch (error) {
-    //   this.handleException(
-    //     error,
-    //     `Can't current location Driver, please contact the system administrator`,
-    //   );
-    // }
+    try {
+      const driver = await this.findDriverEntity(idDriver);
+      await this.locationDriverEntity.update(
+        { status: 'I' },
+        { where: { driver: driver.id } },
+      );
+      await this.locationDriverEntity.create({
+        driver: driver.id,
+        latitude,
+        longitude,
+      });
+    } catch (error) {
+      this.handleException(
+        error,
+        `Can't current location Driver, please contact the system administrator`,
+      );
+    }
   }
 
   async getAvailableDrivers(): Promise<Driver[]> {
-    // const drivers = await this.driverEntity.find({
-    //   status: 'A',
-    //   available: true,
-    // });
-    // return DriverMapper.EntitiesToDomains(drivers);
+    const drivers = await this.driverEntity.findAll({
+      where: {
+        status: 'A',
+        available: 'true',
+      },
+    });
+    return DriverMapper.EntitiesToDomains(drivers);
     return;
   }
 
@@ -104,6 +108,8 @@ export class DriverRepositoryPostgrest implements DriverRepository {
     latitude: string,
     longitude: string,
   ): Promise<Driver[]> {
+    const query = 'SELECT * FROM "DriverLocationEntities" ';
+    const [results] = await this.locationDriverEntity.sequelize.query(query);
     // const locations = await this.locationDriverEntity.find({ status: 'A' });
     // locations.filter((driverLocation: DriverLocationEntity) => {
     //   const distance = Math.acos();
@@ -113,10 +119,9 @@ export class DriverRepositoryPostgrest implements DriverRepository {
   }
 
   private handleException(error: any, message: string) {
-    console.log(error);
-    if (error.code == 11000) {
+    if (error.original.code == 23505) {
       throw new BadRequestException(
-        `Driver exists in db ${JSON.stringify(error.keyValue)}`,
+        `Driver exists in db ${JSON.stringify(error.original.detail)}`,
       );
     } else {
       if (error.status == 404) {
@@ -131,16 +136,21 @@ export class DriverRepositoryPostgrest implements DriverRepository {
   private async findDriverEntity(term: string): Promise<DriverEntity> {
     let driver: DriverEntity;
 
-    // Validate if is a mongo a Id
-    if (!driver) {
-      // driver = await this.driverEntity.get
+    if (!isNaN(+term)) {
+      driver = await this.driverEntity.findOne({
+        where: {
+          id: +term,
+        },
+      });
     }
-    // if (!driver) {
-    //   driver = await this.driverEntity.findOne({
-    //     name: new RegExp(term, 'i'),
-    //     status: 'A',
-    //   });
-    // }
+    if (!driver) {
+      driver = await this.driverEntity.findOne({
+        where: {
+          name: new RegExp(term, 'i'),
+          status: 'A',
+        },
+      });
+    }
     if (!driver)
       throw new NotFoundException(
         `Driver with id,name or no "${term}" not found`,
