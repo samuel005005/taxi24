@@ -20,10 +20,10 @@ export class DriverLocationEntity extends Model<DriverLocationEntity> {
   })
   driver: number;
 
-  @Column({ type: DataType.NUMBER, allowNull: false })
+  @Column({ type: DataType.INTEGER, allowNull: false })
   latitude: string;
 
-  @Column({ type: DataType.NUMBER, allowNull: false })
+  @Column({ type: DataType.INTEGER, allowNull: false })
   longitude: string;
 
   @Column({ type: DataType.STRING, allowNull: false, defaultValue: 'A' })
