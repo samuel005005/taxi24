@@ -4,13 +4,13 @@ import {
   Delete,
   Get,
   Param,
+  ParseIntPipe,
   Patch,
   Post,
 } from '@nestjs/common';
 import { DriverService } from '../services/driver.service';
 import { CreateDriverDto } from '../dto/create-driver.dto';
 import { UpdateDriverDto } from '../dto/update-driver.dto';
-import { ParseMongoIdPipe } from 'src/shared/intrastructure/pipes/parse-mongo-id';
 import { CurrentLocationDriverDto } from '../dto/current-location-driver-dto';
 
 @Controller('driver')
@@ -37,13 +37,13 @@ export class DriverController {
   }
 
   @Delete(':id')
-  remove(@Param('id', ParseMongoIdPipe) id: string) {
+  remove(@Param('id', ParseIntPipe) id: string) {
     return this.driveService.remove(id);
   }
 
   @Post('location/:id')
   currentLocation(
-    @Param('id', ParseMongoIdPipe) idDriver: string,
+    @Param('id', ParseIntPipe) idDriver: string,
     @Body() currentLocationDriverDto: CurrentLocationDriverDto,
   ) {
     return this.driveService.currentLocation(

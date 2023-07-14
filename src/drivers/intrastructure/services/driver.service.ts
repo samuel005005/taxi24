@@ -90,6 +90,7 @@ export class DriverService {
   async getAvailableDriver() {
     return this.getAvailableDriverUseCase.handler();
   }
+  
   async getNearbyDrivers({ latitude, longitude }: CurrentLocationDriverDto) {
     return this.getNearbyDriverUseCase.handler(latitude, longitude);
   }

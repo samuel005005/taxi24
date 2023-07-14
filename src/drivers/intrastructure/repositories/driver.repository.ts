@@ -11,6 +11,7 @@ import Driver from 'src/drivers/domain/models/driver.model';
 import DriverMapper from '../mappers/driver.mapper';
 import { DriverLocationEntity } from '../entities/locationDrive.entity';
 import { InjectModel } from '@nestjs/sequelize';
+import { Op, QueryTypes } from 'sequelize';
 
 @Injectable()
 export class DriverRepositoryPostgrest implements DriverRepository {
@@ -99,12 +100,15 @@ export class DriverRepositoryPostgrest implements DriverRepository {
   async getAvailableDrivers(): Promise<Driver[]> {
     const drivers = await this.driverEntity.findAll({
       where: {
-        status: 'A',
-        available: 'true',
+        available:{
+          [Op.eq]: 'true'
+        },
+        status:{
+          [Op.eq]: 'A'
+        },
       },
     });
     return DriverMapper.EntitiesToDomains(drivers);
-    return;
   }
 
   async getNearbyDriver(
@@ -112,31 +116,35 @@ export class DriverRepositoryPostgrest implements DriverRepository {
     longitude: string,
   ): Promise<Driver[]> {
     const query =
-      ' ' +
-      'WITH distances AS ( ' +
-      ' select' +
-      '  driver,' +
-      '    ( 3959 * acos(  cos( radians(37) ) ' +
-      '                  * cos( radians( latitude ) )  ' +
-      '                  * cos( radians( longitude) - radians(' +
-      latitude +
-      ') ) ' +
-      '                 + sin( radians(' +
-      longitude +
-      ') ) * sin( radians( latitude ) ) ' +
-      '                 )' +
-      '    ) AS distance ' +
-      ' FROM ' +
-      '    "DriverLocationEntities" where status=\'A\' )' +
-      '  SELECT driver from distances where distance > 1000';
-    const [results] = await this.locationDriverEntity.sequelize.query(query);
+      `WITH distances
+      AS (SELECT
+        de.*,
+        dle.latitude,
+        dle.longitude,
+        (3959 * ACOS(COS(RADIANS(${latitude})) * COS(RADIANS(dle.latitude)) * COS(RADIANS(dle.longitude) - RADIANS(${longitude})) + SIN(RADIANS(${latitude})) * SIN(RADIANS(dle.latitude)))) AS distance
+      FROM "DriverLocationEntities" dle
+      JOIN "DriverEntities" de
+        ON dle.driver = de.id
+        AND de.status = 'A'
+      WHERE dle.status = 'A')
+      SELECT
+        *
+      FROM distances
+      WHERE distance < 3`;  
+    const results = await this.locationDriverEntity.sequelize.query(query, {  raw: false,type: QueryTypes.SELECT });
+      
     
-    // results.map(async ({ id }: DriverLocationEntity) => {
-    //   const driver = await this.findDriverEntity(String(id));
+    return results.map((driver) => {
+     return new Driver(driver['id'],
+     driver['name'],
+     driver['lastName'],
+     driver['phoneNumber'],
+     driver['driverLicense'],
+     driver['available'],
+     driver['status']);
+    });
+    
 
-    //   return driver;
-    // });
-    return;
   }
 
   private handleException(error: any, message: string) {
@@ -164,14 +172,16 @@ export class DriverRepositoryPostgrest implements DriverRepository {
         },
       });
     }
+
     if (!driver) {
       driver = await this.driverEntity.findOne({
         where: {
-          name: new RegExp(term, 'i'),
+          name: term,
           status: 'A',
         },
       });
     }
+    
     if (!driver)
       throw new NotFoundException(
         `Driver with id,name or no "${term}" not found`,

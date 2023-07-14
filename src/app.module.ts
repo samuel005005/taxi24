@@ -7,10 +7,10 @@ import { SequelizeModule } from '@nestjs/sequelize';
     DriversModule,
     SequelizeModule.forRoot({
       dialect: 'postgres',
-      host: 'localhost',
+      host: 'postgres',
       port: 5432,
       username: 'postgres',
-      password: '123456',
+      password: 'postgres',
       database: 'postgres',
       autoLoadModels: true,
       synchronize: true, // Solo para desarrollo, deshabilitar en producción
