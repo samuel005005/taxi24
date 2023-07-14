@@ -80,10 +80,13 @@ export class DriverRepositoryPostgrest implements DriverRepository {
         { status: 'I' },
         { where: { driver: driver.id } },
       );
+      const lat: number = parseFloat(latitude);
+      const lgn: number = parseFloat(longitude);
+
       await this.locationDriverEntity.create({
         driver: driver.id,
-        latitude,
-        longitude,
+        latitude: lat,
+        longitude: lgn,
       });
     } catch (error) {
       this.handleException(
@@ -108,12 +111,30 @@ export class DriverRepositoryPostgrest implements DriverRepository {
     latitude: string,
     longitude: string,
   ): Promise<Driver[]> {
-    const query = 'SELECT * FROM "DriverLocationEntities" ';
+    const query =
+      ' ' +
+      'WITH distances AS ( ' +
+      ' select' +
+      '  driver,' +
+      '    ( 3959 * acos(  cos( radians(37) ) ' +
+      '                  * cos( radians( latitude ) )  ' +
+      '                  * cos( radians( longitude) - radians(' +
+      latitude +
+      ') ) ' +
+      '                 + sin( radians(' +
+      longitude +
+      ') ) * sin( radians( latitude ) ) ' +
+      '                 )' +
+      '    ) AS distance ' +
+      ' FROM ' +
+      '    "DriverLocationEntities" where status=\'A\' )' +
+      '  SELECT driver from distances where distance > 1000';
     const [results] = await this.locationDriverEntity.sequelize.query(query);
-    // const locations = await this.locationDriverEntity.find({ status: 'A' });
-    // locations.filter((driverLocation: DriverLocationEntity) => {
-    //   const distance = Math.acos();
-    //   console.log(driverLocation);
+    
+    // results.map(async ({ id }: DriverLocationEntity) => {
+    //   const driver = await this.findDriverEntity(String(id));
+
+    //   return driver;
     // });
     return;
   }
