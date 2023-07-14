@@ -11,7 +11,7 @@ import {
 import { DriverService } from '../services/driver.service';
 import { CreateDriverDto } from '../dto/create-driver.dto';
 import { UpdateDriverDto } from '../dto/update-driver.dto';
-import { CurrentLocationDriverDto } from '../dto/current-location-driver-dto';
+import { LocationDto } from '../../../shared/intrastructure/dto/location-dto';
 
 @Controller('driver')
 export class DriverController {
@@ -44,7 +44,7 @@ export class DriverController {
   @Post('location/:id')
   currentLocation(
     @Param('id', ParseIntPipe) idDriver: string,
-    @Body() currentLocationDriverDto: CurrentLocationDriverDto,
+    @Body() currentLocationDriverDto: LocationDto,
   ) {
     return this.driveService.currentLocation(
       idDriver,
@@ -58,8 +58,8 @@ export class DriverController {
   }
 
   @Get('nearby/')
-  getNearbyDriver(@Body() currentLocationDriverDto: CurrentLocationDriverDto) {
-    return this.driveService.getNearbyDrivers(currentLocationDriverDto);
+  getNearbyDriver(@Body() locationDto: LocationDto) {
+    return this.driveService.getNearbyDrivers(locationDto);
   }
 
   @Get(':term')

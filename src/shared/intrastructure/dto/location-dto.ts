@@ -1,6 +1,6 @@
 import { IsString, MinLength } from 'class-validator';
 
-export class CurrentLocationDriverDto {
+export class LocationDto {
   @IsString()
   @MinLength(1)
   latitude: string;

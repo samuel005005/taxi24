@@ -13,9 +13,10 @@ import {
 import {
   CreateDriverDto,
   UpdateDriverDto,
-  CurrentLocationDriverDto,
+  LocationDto,
   GetNearbyDriverUseCase,
 } from '../dto';
+import LocationMapper from 'src/shared/intrastructure/mappers/location.mapper';
 
 @Injectable()
 export class DriverService {
@@ -79,19 +80,18 @@ export class DriverService {
 
   async currentLocation(
     idDriver: string,
-    { latitude, longitude }: CurrentLocationDriverDto,
+    locationDto: LocationDto,
   ) {
     return this.currentLocationDriverUseCase.handler(
       idDriver,
-      latitude,
-      longitude,
+      LocationMapper.DtoToDomain(locationDto)
     );
   }
   async getAvailableDriver() {
     return this.getAvailableDriverUseCase.handler();
   }
   
-  async getNearbyDrivers({ latitude, longitude }: CurrentLocationDriverDto) {
-    return this.getNearbyDriverUseCase.handler(latitude, longitude);
+  async getNearbyDrivers(locationDto: LocationDto) {
+    return this.getNearbyDriverUseCase.handler(LocationMapper.DtoToDomain(locationDto));
   }
 }

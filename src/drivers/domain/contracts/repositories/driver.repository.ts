@@ -1,3 +1,4 @@
+import LocationModel from 'src/shared/domain/models/lotation.model';
 import Driver from '../../models/driver.model';
 
 export interface DriverRepository {
@@ -8,9 +9,8 @@ export interface DriverRepository {
   remove(id: string): Promise<Driver | null>;
   currentLocationDriver(
     idDriver: string,
-    latitud: string,
-    longitud: string,
+    location: LocationModel
   ): void;
   getAvailableDrivers(): Promise<Driver[]>;
-  getNearbyDriver(latitude: string, longitude: string): Promise<Driver[]>;
+  getNearbyDriver(location: LocationModel): Promise<Driver[]>;
 }

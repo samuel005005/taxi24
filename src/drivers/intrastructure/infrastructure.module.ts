@@ -14,7 +14,7 @@ import { DriverLocationEntity } from './entities/locationDrive.entity';
   ],
   imports: [
     ApplicationModule,
-    SequelizeModule.forFeature([DriverEntity, DriverLocationEntity]),
+    SequelizeModule.forFeature([DriverEntity, DriverLocationEntity]), 
   ],
   controllers: [DriverController],
 })
