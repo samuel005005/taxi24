@@ -11,6 +11,7 @@ export default class DriverMapper {
       driverEntity.phoneNumber,
       driverEntity.driverLicense,
       driverEntity.id,
+      driverEntity.available,
     );
 
     return driver;

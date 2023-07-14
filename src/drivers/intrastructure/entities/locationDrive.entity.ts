@@ -1,24 +1,37 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import * as mongoose from 'mongoose';
+import {
+  BelongsTo,
+  Column,
+  DataType,
+  ForeignKey,
+  Model,
+  Table,
+} from 'sequelize-typescript';
 import { DriverEntity } from './driver.entity';
 
-@Schema()
-export class DriverLocationEntity extends mongoose.Document {
-  @Prop({ type: mongoose.Types.ObjectId, ref: 'DriverEntity' })
-  driver: mongoose.Types.ObjectId;
+@Table
+export class DriverLocationEntity extends Model<DriverLocationEntity> {
+  @Column({ primaryKey: true, autoIncrement: true })
+  id: number;
 
-  @Prop({ required: true })
-  latitud: string;
+  @ForeignKey(() => DriverEntity)
+  @Column({
+    type: DataType.INTEGER,
+    allowNull: false,
+  })
+  driver: number;
 
-  @Prop({ required: true })
-  longitud: string;
+  @Column({ type: DataType.STRING, allowNull: false })
+  latitude: string;
 
-  @Prop({ required: true, default: 'A' })
+  @Column({ type: DataType.STRING, allowNull: false })
+  longitude: string;
+
+  @Column({ type: DataType.STRING, allowNull: false, defaultValue: 'A' })
   status: string;
 
-  @Prop({ required: true, default: Date.now })
+  @Column({ type: DataType.STRING, allowNull: false, defaultValue: Date.now })
   dateAt: Date;
-}
 
-export const DriverLocationSchema =
-  SchemaFactory.createForClass(DriverLocationEntity);
+  @BelongsTo(() => DriverEntity)
+  user: DriverEntity;
+}

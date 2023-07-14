@@ -1,25 +1,25 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Column, DataType, Model, Table } from 'sequelize-typescript';
 
-@Schema()
-export class DriverEntity extends Document {
-  @Prop({ required: true })
+@Table({ tableName: 'users' })
+export class DriverEntity extends Model<DriverEntity> {
+  @Column({ primaryKey: true, autoIncrement: true })
+  id: number;
+
+  @Column({ type: DataType.STRING, allowNull: false })
   name: string;
 
-  @Prop({ required: true })
+  @Column({ type: DataType.STRING, allowNull: false })
   lastName: string;
 
-  @Prop({ required: true })
+  @Column({ type: DataType.STRING, allowNull: false })
   phoneNumber: string;
 
-  @Prop({ required: true, unique: true })
+  @Column({ type: DataType.STRING, allowNull: false })
   driverLicense: string;
 
-  @Prop({ required: true, default: true })
+  @Column({ type: DataType.STRING, allowNull: false })
   available: boolean;
 
-  @Prop({ required: true, default: 'A' })
+  @Column({ type: DataType.STRING, allowNull: false, defaultValue: 'A' })
   status: string;
 }
-
-export const DriverSchema = SchemaFactory.createForClass(DriverEntity);

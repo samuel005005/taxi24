@@ -28,11 +28,6 @@ export class DriverController {
     return this.driveService.findAll();
   }
 
-  @Get(':term')
-  findOne(@Param('term') term: string) {
-    return this.driveService.findOne(term);
-  }
-
   @Patch(':term')
   update(
     @Param('term') term: string,
@@ -55,5 +50,20 @@ export class DriverController {
       idDriver,
       currentLocationDriverDto,
     );
+  }
+
+  @Get('available/')
+  getAvailableDriver() {
+    return this.driveService.getAvailableDriver();
+  }
+
+  @Get('nearby/')
+  getNearbyDriver(@Body() currentLocationDriverDto: CurrentLocationDriverDto) {
+    return this.driveService.getNearbyDrivers(currentLocationDriverDto);
+  }
+
+  @Get(':term')
+  findOne(@Param('term') term: string) {
+    return this.driveService.findOne(term);
   }
 }

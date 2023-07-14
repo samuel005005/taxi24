@@ -11,4 +11,6 @@ export interface DriverRepository {
     latitud: string,
     longitud: string,
   ): void;
+  getAvailableDrivers(): Promise<Driver[]>;
+  getNearbyDriver(latitude: string, longitude: string): Promise<Driver[]>;
 }

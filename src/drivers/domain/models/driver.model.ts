@@ -1,5 +1,5 @@
 export default class Driver {
-  private readonly id?: string;
+  private readonly id?: number;
 
   private readonly name: string;
 
@@ -11,12 +11,15 @@ export default class Driver {
 
   private readonly status: string;
 
+  private readonly available: boolean;
+
   constructor(
     name: string,
     lastName: string,
     phoneNumber: string,
     driverLicense: string,
-    id?: string,
+    id?: number,
+    available?: boolean,
     status?: string,
   ) {
     this.id = id;
@@ -25,5 +28,6 @@ export default class Driver {
     this.phoneNumber = phoneNumber;
     this.driverLicense = driverLicense;
     this.status = status;
+    this.available = available;
   }
 }

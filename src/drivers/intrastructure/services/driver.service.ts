@@ -1,15 +1,21 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { DriverRepository } from 'src/drivers/domain/contracts/repositories/driver.repository';
-import { CreateDriverDto } from '../dto/create-driver.dto';
 import DriverMapper from '../mappers/driver.mapper';
-import CreateDriverUseCase from 'src/drivers/application/usecases/createDriver.usecase';
-import GetDriversUseCase from 'src/drivers/application/usecases/getDrivers.usecase';
-import GetDriverUseCase from 'src/drivers/application/usecases/getDriver.usecase';
-import { UpdateDriverDto } from '../dto/update-driver.dto';
-import UpdateDriverUseCase from 'src/drivers/application/usecases/updateDriver.usecase';
-import DeleteDriverUseCase from 'src/drivers/application/usecases/deleteDriver.usecase';
-import CurrentLocationDriverUseCase from 'src/drivers/application/usecases/currentLocationDriver.usecase';
-import { CurrentLocationDriverDto } from '../dto/current-location-driver-dto';
+import {
+  CreateDriverUseCase,
+  CurrentLocationDriverUseCase,
+  DeleteDriverUseCase,
+  GetAvailableDriversUseCase,
+  GetDriverUseCase,
+  GetDriversUseCase,
+  UpdateDriverUseCase,
+} from 'src/drivers/application/usecases/index';
+import {
+  CreateDriverDto,
+  UpdateDriverDto,
+  CurrentLocationDriverDto,
+  GetNearbyDriverUseCase,
+} from '../dto';
 
 @Injectable()
 export class DriverService {
@@ -19,6 +25,8 @@ export class DriverService {
   private readonly updateDriverUseCase: UpdateDriverUseCase;
   private readonly deleteDriverUser: DeleteDriverUseCase;
   private readonly currentLocationDriverUseCase: CurrentLocationDriverUseCase;
+  private readonly getAvailableDriverUseCase: GetAvailableDriversUseCase;
+  private readonly getNearbyDriverUseCase: GetNearbyDriverUseCase;
 
   constructor(
     @Inject('DriverRepository')
@@ -30,6 +38,12 @@ export class DriverService {
     this.updateDriverUseCase = new UpdateDriverUseCase(this.driverRepository);
     this.deleteDriverUser = new DeleteDriverUseCase(this.driverRepository);
     this.currentLocationDriverUseCase = new CurrentLocationDriverUseCase(
+      this.driverRepository,
+    );
+    this.getAvailableDriverUseCase = new GetAvailableDriversUseCase(
+      this.driverRepository,
+    );
+    this.getNearbyDriverUseCase = new GetNearbyDriverUseCase(
       this.driverRepository,
     );
   }
@@ -65,12 +79,18 @@ export class DriverService {
 
   async currentLocation(
     idDriver: string,
-    currentLocationDriverDto: CurrentLocationDriverDto,
+    { latitude, longitude }: CurrentLocationDriverDto,
   ) {
     return this.currentLocationDriverUseCase.handler(
       idDriver,
-      currentLocationDriverDto.latitud,
-      currentLocationDriverDto.longitud,
+      latitude,
+      longitude,
     );
+  }
+  async getAvailableDriver() {
+    return this.getAvailableDriverUseCase.handler();
+  }
+  async getNearbyDrivers({ latitude, longitude }: CurrentLocationDriverDto) {
+    return this.getNearbyDriverUseCase.handler(latitude, longitude);
   }
 }
