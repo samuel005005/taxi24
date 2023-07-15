@@ -3,11 +3,11 @@ import LocationModel from 'src/shared/domain/models/lotation.model';
 export default class Trip {
   private readonly id?: number;
 
-  private readonly idDriver: number;
+  private readonly idDriver?: number;
 
   private readonly idPassager: number;
 
-  private readonly dateTrip: Date;
+  private readonly dateTrip?: Date;
 
   private readonly source: LocationModel;
 
@@ -16,11 +16,11 @@ export default class Trip {
   private readonly status?: string;
 
   constructor(
-    idDriver: number,
     idPassager: number,
-    dateTrip: Date,
     source: LocationModel,
     destination: LocationModel,
+    idDriver?: number,
+    dateTrip?: Date,
     status?: string,
     id?: number,
   ) {

@@ -29,6 +29,7 @@
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.0",
     "mapped-types": "^0.0.1",
+    "nestjs-sequelize-seeder": "^1.1.4",
     "pg": "^8.11.1",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.2.0",

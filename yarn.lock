@@ -2484,6 +2484,13 @@ form-data@^4.0.0:
     combined-stream "^1.0.8"
     mime-types "^2.1.12"
 
+format-fast@^1.0.1:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/format-fast/-/format-fast-1.0.2.tgz#85402b3f8c3f4980602382aef96e7d362cd0744e"
+  integrity sha512-Ywf8+KIfPlM/cB8gWHMyx6MMhmTZtfwn3WJpXy3L84FrXJKGZMT8rjAj25NrGj34X8pAbFpNzTGyI3YIQJ+ZXg==
+  dependencies:
+    is-all-utils "^1.0.6"
+
 formidable@^2.1.2:
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/formidable/-/formidable-2.1.2.tgz#fa973a2bec150e4ce7cac15589d7a25fc30ebd89"
@@ -2822,6 +2829,11 @@ ipaddr.js@1.9.1:
   version "1.9.1"
   resolved "https://registry.yarnpkg.com/ipaddr.js/-/ipaddr.js-1.9.1.tgz#bff38543eeb8984825079ff3a2a8e6cbd46781b3"
   integrity sha512-0KI/607xoxSToH7GjN1FfSbLoU0+btTicjsQSWQlh/hZykN8KpmMf7uYwPW3R+akZ6R/w18ZlXSHBYXiYUPO3g==
+
+is-all-utils@^1.0.3, is-all-utils@^1.0.6:
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/is-all-utils/-/is-all-utils-1.0.7.tgz#c3d96e462541523855f1346321d6b5738644675c"
+  integrity sha512-URcVdNTd0hBKe8PapjRWbkqqIapV2WohKDnldOIM+ajpfRqGsfIY/4TCSZAsoIegtl0mU6XN1BO5hHC0Y1eK4A==
 
 is-arrayish@^0.2.1:
   version "0.2.1"
@@ -3520,6 +3532,13 @@ merge-descriptors@1.0.1:
   resolved "https://registry.yarnpkg.com/merge-descriptors/-/merge-descriptors-1.0.1.tgz#b00aaa556dd8b44568150ec9d1b953f3f90cbb61"
   integrity sha512-cCi6g3/Zr1iqQi6ySbseM1Xvooa98N0w31jzUYrXPX2xqObmFGHJ0tQ5u74H3mVh7wLouTseZyYIq39g8cNp1w==
 
+merge-options-default@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/merge-options-default/-/merge-options-default-1.0.2.tgz#cf9a8a6dca8af06e119a26ad09bb341fad9f447b"
+  integrity sha512-34dbkKCRDFIHJsV/ym4OfTylW5CQ23+wamcF9qUmNebFUklex9CGEwDrhsXrVFHVQe1KGcaX9QJMfs7fvIV9wA==
+  dependencies:
+    is-all-utils "^1.0.3"
+
 merge-stream@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/merge-stream/-/merge-stream-2.0.0.tgz#52823629a14dd00c9770fb6ad47dc6310f2c1f60"
@@ -3670,6 +3689,15 @@ neo-async@^2.6.2:
   version "2.6.2"
   resolved "https://registry.yarnpkg.com/neo-async/-/neo-async-2.6.2.tgz#b4aafb93e3aeb2d8174ca53cf163ab7d7308305f"
   integrity sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==
+
+nestjs-sequelize-seeder@^1.1.4:
+  version "1.1.4"
+  resolved "https://registry.yarnpkg.com/nestjs-sequelize-seeder/-/nestjs-sequelize-seeder-1.1.4.tgz#3e92fecc6d2b11f0169a27ab96760a1a6688167c"
+  integrity sha512-EstDY0lLjqROXE2E3ko5LxdZmxMW+sZ4V0Dlnleh5V6NdHprG54eP42IN+CKlJfkEFSRY8X1fOFYLSAlx2tXRg==
+  dependencies:
+    format-fast "^1.0.1"
+    is-all-utils "^1.0.3"
+    merge-options-default "^1.0.2"
 
 node-abort-controller@^3.0.1:
   version "3.1.1"

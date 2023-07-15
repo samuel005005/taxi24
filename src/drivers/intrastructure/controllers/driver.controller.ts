@@ -15,7 +15,6 @@ import { LocationDto } from '../../../shared/intrastructure/dto/location-dto';
 
 @Controller('driver')
 export class DriverController {
-  driverService: any;
   constructor(private readonly driveService: DriverService) {}
 
   @Post()

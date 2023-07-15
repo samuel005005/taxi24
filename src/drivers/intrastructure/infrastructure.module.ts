@@ -7,6 +7,9 @@ import { DriverRepositoryPostgrest } from './repositories/driver.repository';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { DriverEntity } from './entities/driver.entity';
 import { DriverLocationEntity } from './entities/locationDrive.entity';
+import { SeedDriver } from './seeders/driver.seed';
+import { SeederModule } from 'nestjs-sequelize-seeder';
+import { SeedDriverLocation } from './seeders/driveLocation.seed';
 @Module({
   providers: [
     DriverService,
@@ -15,6 +18,7 @@ import { DriverLocationEntity } from './entities/locationDrive.entity';
   imports: [
     ApplicationModule,
     SequelizeModule.forFeature([DriverEntity, DriverLocationEntity]),
+    SeederModule.forFeature([SeedDriver, SeedDriverLocation]),
   ],
   controllers: [DriverController],
 })

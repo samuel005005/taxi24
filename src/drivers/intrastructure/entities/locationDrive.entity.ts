@@ -9,7 +9,7 @@ import {
 import { DriverEntity } from './driver.entity';
 
 @Table
-export class DriverLocationEntity extends Model<DriverLocationEntity> {
+export class DriverLocationEntity extends Model {
   @Column({ primaryKey: true, autoIncrement: true })
   id: number;
 

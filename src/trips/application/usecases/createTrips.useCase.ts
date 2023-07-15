@@ -1,7 +1,7 @@
 import { TripRepository } from 'src/trips/domain/contracts/trip.repository';
 import Trip from 'src/trips/domain/models/trip.model';
 
-export default class CreateDriverUseCase {
+export default class CreateTripUseCase {
   constructor(private readonly tripRepository: TripRepository) {}
 
   public handler(trip: Trip): Promise<Trip> {

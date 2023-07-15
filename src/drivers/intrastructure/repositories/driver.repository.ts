@@ -116,6 +116,8 @@ export class DriverRepositoryPostgrest implements DriverRepository {
     lattitude,
     longtude,
   }: LocationModel): Promise<Driver[]> {
+    const distance = 3;
+    const limit = 1;
     const query = `WITH distances
       AS (SELECT
         de.*,
@@ -130,10 +132,12 @@ export class DriverRepositoryPostgrest implements DriverRepository {
       SELECT
         *
       FROM distances
-      WHERE distance < 3`;
+      WHERE distance < ?
+      LIMIT ?`;
     const results = await this.locationDriverEntity.sequelize.query(query, {
       raw: false,
       type: QueryTypes.SELECT,
+      replacements: [distance, limit],
     });
 
     return results.map((driver) => {
