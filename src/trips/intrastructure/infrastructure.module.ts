@@ -5,8 +5,7 @@ import { SequelizeModule } from '@nestjs/sequelize';
 import TripEntity from './entities/trip.entity';
 @Module({
   providers: [],
-  imports: [ApplicationModule,
-    SequelizeModule.forFeature([TripEntity]),],
+  imports: [ApplicationModule, SequelizeModule.forFeature([TripEntity])],
   controllers: [],
 })
-export class InfrastructureModule { }
+export class InfrastructureModule {}

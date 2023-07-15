@@ -21,7 +21,7 @@ export class DriverRepositoryPostgrest implements DriverRepository {
     private readonly driverEntity: typeof DriverEntity,
     @InjectModel(DriverLocationEntity)
     private readonly locationDriverEntity: typeof DriverLocationEntity,
-  ) { }
+  ) {}
 
   async findAll(): Promise<Driver[]> {
     const drivers = await this.driverEntity.findAll();
@@ -73,10 +73,9 @@ export class DriverRepositoryPostgrest implements DriverRepository {
 
   async currentLocationDriver(
     idDriver: string,
-    { lattitude, longtude }: LocationModel
+    { lattitude, longtude }: LocationModel,
   ) {
     try {
-
       const driver = await this.findDriverEntity(idDriver);
 
       await this.locationDriverEntity.update(
@@ -103,21 +102,21 @@ export class DriverRepositoryPostgrest implements DriverRepository {
     const drivers = await this.driverEntity.findAll({
       where: {
         available: {
-          [Op.eq]: 'true'
+          [Op.eq]: 'true',
         },
         status: {
-          [Op.eq]: 'A'
+          [Op.eq]: 'A',
         },
       },
     });
     return DriverMapper.EntitiesToDomains(drivers);
   }
 
-  async getNearbyDriver(
-    { lattitude, longtude }: LocationModel
-  ): Promise<Driver[]> {
-    const query =
-      `WITH distances
+  async getNearbyDriver({
+    lattitude,
+    longtude,
+  }: LocationModel): Promise<Driver[]> {
+    const query = `WITH distances
       AS (SELECT
         de.*,
         dle.latitude,
@@ -132,34 +131,35 @@ export class DriverRepositoryPostgrest implements DriverRepository {
         *
       FROM distances
       WHERE distance < 3`;
-    const results = await this.locationDriverEntity.sequelize.query(query, { raw: false, type: QueryTypes.SELECT });
-
+    const results = await this.locationDriverEntity.sequelize.query(query, {
+      raw: false,
+      type: QueryTypes.SELECT,
+    });
 
     return results.map((driver) => {
-      return new Driver(driver['id'],
+      return new Driver(
+        driver['id'],
         driver['name'],
         driver['lastName'],
         driver['phoneNumber'],
         driver['driverLicense'],
         driver['available'],
-        driver['status']);
+        driver['status'],
+      );
     });
-
-
   }
 
   private handleException(error: any, message: string) {
-    if(error.hasOwnProperty('original')){
-
+    if (error.hasOwnProperty('original')) {
       if (error.original.code == 23505) {
         throw new BadRequestException(
           `Driver exists in db ${JSON.stringify(error.original.detail)}`,
         );
-      }else{
+      } else {
         if (error.original.code == 42883) {
           throw new NotFoundException(error.message);
         }
-      } 
+      }
     } else {
       if (error.status == 404) {
         throw new NotFoundException(error.message);
@@ -173,12 +173,11 @@ export class DriverRepositoryPostgrest implements DriverRepository {
   private async findDriverEntity(term: string): Promise<DriverEntity> {
     let driver: DriverEntity;
 
-
     if (!isNaN(+term)) {
       driver = await this.driverEntity.findOne({
         where: {
           id: {
-            [Op.eq]: term
+            [Op.eq]: term,
           },
         },
       });
@@ -186,10 +185,10 @@ export class DriverRepositoryPostgrest implements DriverRepository {
       driver = await this.driverEntity.findOne({
         where: {
           name: {
-            [Op.contains]: term
-          }, 
+            [Op.contains]: term,
+          },
           status: {
-            [Op.eq]: 'A'
+            [Op.eq]: 'A',
           },
         },
       });

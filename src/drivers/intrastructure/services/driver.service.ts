@@ -78,20 +78,19 @@ export class DriverService {
     return this.deleteDriverUser.handler(id);
   }
 
-  async currentLocation(
-    idDriver: string,
-    locationDto: LocationDto,
-  ) {
+  async currentLocation(idDriver: string, locationDto: LocationDto) {
     return this.currentLocationDriverUseCase.handler(
       idDriver,
-      LocationMapper.DtoToDomain(locationDto)
+      LocationMapper.DtoToDomain(locationDto),
     );
   }
   async getAvailableDriver() {
     return this.getAvailableDriverUseCase.handler();
   }
-  
+
   async getNearbyDrivers(locationDto: LocationDto) {
-    return this.getNearbyDriverUseCase.handler(LocationMapper.DtoToDomain(locationDto));
+    return this.getNearbyDriverUseCase.handler(
+      LocationMapper.DtoToDomain(locationDto),
+    );
   }
 }

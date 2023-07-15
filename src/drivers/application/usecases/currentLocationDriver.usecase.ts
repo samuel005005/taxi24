@@ -5,9 +5,6 @@ export default class CurrentLocationDriverUseCase {
   constructor(private readonly driverRepository: DriverRepository) {}
 
   public handler(idDriver: string, location: LocationModel) {
-    return this.driverRepository.currentLocationDriver(
-      idDriver,
-      location
-    );
+    return this.driverRepository.currentLocationDriver(idDriver, location);
   }
 }
