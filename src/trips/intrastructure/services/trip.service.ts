@@ -12,18 +12,19 @@ export class TripService {
 
   constructor(
     @Inject('TripRepository') private readonly tripRepository: TripRepository,
-    // @Inject('DriverRepository')
-    // private readonly driverRepository: DriverRepository,
+    @Inject('DriverRepository')
+    private readonly driverRepository: DriverRepository,
   ) {
-    // this.createTripUseCase = new CreateTripUseCase(this.tripRepository);
+    this.createTripUseCase = new CreateTripUseCase(this.tripRepository);
   }
 
   async resquest(trip: CreateTripDto) {
-    // const driver = this.driverRepository.getNearbyDriver(
-    //   new LocationModel(trip.source.lattitude, trip.source.longtude),
-    // );
+    const driver = await this.driverRepository.getNearbyDriver(
+      new LocationModel(trip.source.lattitude, trip.source.longitude),
+    );
 
-    // console.log(driver);
-    return this.createTripUseCase.handler(TripMapper.DtoToDomain(trip));
+    console.log(driver);
+    return;
+    // return this.createTripUseCase.handler(TripMapper.DtoToDomain(trip));
   }
 }

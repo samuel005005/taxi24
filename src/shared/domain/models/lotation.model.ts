@@ -1,10 +1,10 @@
 export default class LocationModel {
   public readonly lattitude: string;
 
-  public readonly longtude: string;
+  public readonly longitude: string;
 
-  constructor(lattitude: string, longtude: string) {
+  constructor(lattitude: string, longitude: string) {
     this.lattitude = lattitude;
-    this.longtude = longtude;
+    this.longitude = longitude;
   }
 }

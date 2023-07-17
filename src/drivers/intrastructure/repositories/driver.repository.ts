@@ -73,7 +73,7 @@ export class DriverRepositoryPostgrest implements DriverRepository {
 
   async currentLocationDriver(
     idDriver: string,
-    { lattitude, longtude }: LocationModel,
+    { lattitude, longitude }: LocationModel,
   ) {
     try {
       const driver = await this.findDriverEntity(idDriver);
@@ -83,7 +83,7 @@ export class DriverRepositoryPostgrest implements DriverRepository {
         { where: { driver: driver.id } },
       );
       const lat: number = parseFloat(lattitude);
-      const lgn: number = parseFloat(longtude);
+      const lgn: number = parseFloat(longitude);
 
       await this.locationDriverEntity.create({
         driver: driver.id,
@@ -114,7 +114,7 @@ export class DriverRepositoryPostgrest implements DriverRepository {
 
   async getNearbyDriver({
     lattitude,
-    longtude,
+    longitude,
   }: LocationModel): Promise<Driver[]> {
     const distance = 3;
     const limit = 1;
@@ -123,7 +123,7 @@ export class DriverRepositoryPostgrest implements DriverRepository {
         de.*,
         dle.latitude,
         dle.longitude,
-        (3959 * ACOS(COS(RADIANS(${lattitude})) * COS(RADIANS(dle.latitude)) * COS(RADIANS(dle.longitude) - RADIANS(${longtude})) + SIN(RADIANS(${lattitude})) * SIN(RADIANS(dle.latitude)))) AS distance
+        (3959 * ACOS(COS(RADIANS(${lattitude})) * COS(RADIANS(dle.latitude)) * COS(RADIANS(dle.longitude) - RADIANS(${longitude})) + SIN(RADIANS(${lattitude})) * SIN(RADIANS(dle.latitude)))) AS distance
       FROM "DriverLocationEntities" dle
       JOIN "DriverEntities" de
         ON dle.driver = de.id

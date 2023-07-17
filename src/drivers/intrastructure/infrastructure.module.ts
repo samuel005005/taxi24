@@ -21,5 +21,8 @@ import { SeedDriverLocation } from './seeders/driveLocation.seed';
     SeederModule.forFeature([SeedDriver, SeedDriverLocation]),
   ],
   controllers: [DriverController],
+  exports: [
+    { provide: 'DriverRepository', useClass: DriverRepositoryPostgrest },
+  ],
 })
 export class InfrastructureModule {}
