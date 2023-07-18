@@ -4,6 +4,7 @@ import { SequelizeModule } from '@nestjs/sequelize';
 import { TripsModule } from './trips/trips.module';
 import { SeederModule } from 'nestjs-sequelize-seeder';
 import { PassagersModule } from './passengers/passagers.module';
+import { InvoicesModule } from './invoices/invoices.module';
 
 @Module({
   exports: [DriversModule],
@@ -11,6 +12,7 @@ import { PassagersModule } from './passengers/passagers.module';
     DriversModule,
     TripsModule,
     PassagersModule,
+    InvoicesModule,
     SequelizeModule.forRoot({
       dialect: 'postgres',
       host: 'localhost',

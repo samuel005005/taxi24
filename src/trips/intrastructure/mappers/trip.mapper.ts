@@ -34,8 +34,8 @@ export default class TripMapper {
     return driver;
   }
 
-  public static EntitiesToDomains(driverEntity: TripEntity[]): Trip[] {
-    const trips = driverEntity.map((tripEntity) =>
+  public static EntitiesToDomains(tripEntity: TripEntity[]): Trip[] {
+    const trips = tripEntity.map((tripEntity) =>
       this.EntityToDomain(tripEntity),
     );
     return trips;

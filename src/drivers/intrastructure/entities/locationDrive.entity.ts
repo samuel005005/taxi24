@@ -1,5 +1,4 @@
 import {
-  BelongsTo,
   Column,
   DataType,
   ForeignKey,
@@ -28,7 +27,4 @@ export class DriverLocationEntity extends Model {
 
   @Column({ type: DataType.STRING, allowNull: false, defaultValue: 'A' })
   status: string;
-
-  @BelongsTo(() => DriverEntity)
-  user: DriverEntity;
 }
