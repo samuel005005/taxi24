@@ -32,4 +32,19 @@ export default class Trip {
     this.destination = destination;
     this.status = status;
   }
+
+  get getDriverId(): number {
+    return this.idDriver;
+  }
+
+  get getSource(): LocationModel {
+    return this.source;
+  }
+
+  get getDestination(): LocationModel {
+    return this.destination;
+  }
+  get getPassaggerId(): number {
+    return this.idDriver;
+  }
 }

@@ -9,5 +9,9 @@ export interface DriverRepository {
   remove(id: string): Promise<Driver | null>;
   currentLocationDriver(idDriver: string, location: LocationModel): void;
   getAvailableDrivers(): Promise<Driver[]>;
-  getNearbyDriver(location: LocationModel): Promise<Driver[]>;
+  getNearbyDriver(
+    location: LocationModel,
+    distance?: number,
+    limit?: number,
+  ): Promise<Driver[]>;
 }

@@ -80,7 +80,7 @@ export class DriverRepositoryPostgrest implements DriverRepository {
 
       await this.locationDriverEntity.update(
         { status: 'I' },
-        { where: { driver: driver.id } },
+        { where: { driver: { [Op.eq]: driver.id } } },
       );
       const lat: number = parseFloat(lattitude);
       const lgn: number = parseFloat(longitude);
@@ -112,12 +112,11 @@ export class DriverRepositoryPostgrest implements DriverRepository {
     return DriverMapper.EntitiesToDomains(drivers);
   }
 
-  async getNearbyDriver({
-    lattitude,
-    longitude,
-  }: LocationModel): Promise<Driver[]> {
-    const distance = 3;
-    const limit = 1;
+  async getNearbyDriver(
+    { lattitude, longitude },
+    distance = 100,
+    limit = 100,
+  ): Promise<Driver[]> {
     const query = `WITH distances
       AS (SELECT
         de.*,
@@ -133,7 +132,7 @@ export class DriverRepositoryPostgrest implements DriverRepository {
         *
       FROM distances
       WHERE distance < ?
-      LIMIT ?`;
+      ORDER BY distance ASC LIMIT ?`;
     const results = await this.locationDriverEntity.sequelize.query(query, {
       raw: false,
       type: QueryTypes.SELECT,
@@ -142,11 +141,11 @@ export class DriverRepositoryPostgrest implements DriverRepository {
 
     return results.map((driver) => {
       return new Driver(
-        driver['id'],
         driver['name'],
         driver['lastName'],
         driver['phoneNumber'],
         driver['driverLicense'],
+        driver['id'],
         driver['available'],
         driver['status'],
       );
@@ -189,7 +188,7 @@ export class DriverRepositoryPostgrest implements DriverRepository {
       driver = await this.driverEntity.findOne({
         where: {
           name: {
-            [Op.contains]: term,
+            [Op.like]: term,
           },
           status: {
             [Op.eq]: 'A',

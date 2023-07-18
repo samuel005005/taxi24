@@ -42,4 +42,7 @@ export default class Driver {
   get getDriverLicense(): string {
     return this.driverLicense;
   }
+  get getId(): number {
+    return this.id;
+  }
 }
