@@ -1,12 +1,14 @@
 import { Inject, Injectable } from '@nestjs/common';
-import CreateTripUseCase from 'src/trips/application/usecases/createTrips.usecase';
 import { TripRepository } from 'src/trips/domain/contracts/trip.repository';
 import { CreateTripDto } from '../dto/createTripDto';
 import TripMapper from '../mappers/trip.mapper';
 import { DriverRepository } from 'src/drivers/domain/contracts/repositories/driver.repository';
 import LocationModel from 'src/shared/domain/models/lotation.model';
-import GetsAvailableTripsUseCase from 'src/trips/application/usecases/getsAvailableTrips.usecase';
-import CompleteTripUseCase from 'src/trips/application/usecases/completeTrip.usecase';
+import {
+  CompleteTripUseCase,
+  CreateTripUseCase,
+  GetsAvailableTripsUseCase,
+} from 'src/trips/application/usecases';
 
 @Injectable()
 export class TripService {
@@ -18,6 +20,8 @@ export class TripService {
     @Inject('TripRepository') private readonly tripRepository: TripRepository,
     @Inject('DriverRepository')
     private readonly driverRepository: DriverRepository,
+    @Inject('PassengerRepository')
+    private readonly passengerRepository: DriverRepository,
   ) {
     this.createTripUseCase = new CreateTripUseCase(this.tripRepository);
     this.getsAvailableTripsUseCase = new GetsAvailableTripsUseCase(
@@ -27,6 +31,7 @@ export class TripService {
   }
 
   async resquest(trip: CreateTripDto) {
+    await this.passengerRepository.findOne(trip.idPassager.toString());
     const driver = await this.driverRepository.getNearbyDriver(
       new LocationModel(trip.source.lattitude, trip.source.longitude),
       100,
@@ -39,6 +44,7 @@ export class TripService {
   async getAvailableTrips() {
     return this.getsAvailableTripsUseCase.handler();
   }
+
   async complete(idTrip: number) {
     return this.completeTripUseCase.handler(idTrip);
   }

@@ -8,14 +8,10 @@ import {
   GetAvailableDriversUseCase,
   GetDriverUseCase,
   GetDriversUseCase,
+  GetNearbyDriverUseCase,
   UpdateDriverUseCase,
 } from 'src/drivers/application/usecases/index';
-import {
-  CreateDriverDto,
-  UpdateDriverDto,
-  LocationDto,
-  GetNearbyDriverUseCase,
-} from '../dto';
+import { CreateDriverDto, UpdateDriverDto, LocationDto } from '../dto';
 import LocationMapper from 'src/shared/intrastructure/mappers/location.mapper';
 
 @Injectable()

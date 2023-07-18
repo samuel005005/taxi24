@@ -7,6 +7,7 @@ import { TripController } from './controllers/trips.controller';
 import { TripService } from './services/trip.service';
 import { TripRepositoryPostgrest } from './repositories/trip.repository';
 import { DriversModule } from 'src/drivers/drivers.module';
+import { PassagersModule } from 'src/passengers/passagers.module';
 @Module({
   providers: [
     TripService,
@@ -16,7 +17,9 @@ import { DriversModule } from 'src/drivers/drivers.module';
     ApplicationModule,
     SequelizeModule.forFeature([TripEntity]),
     DriversModule,
+    PassagersModule,
   ],
   controllers: [TripController],
+  exports: [],
 })
 export class InfrastructureModule {}

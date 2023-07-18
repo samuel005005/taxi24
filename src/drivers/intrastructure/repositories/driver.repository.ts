@@ -66,7 +66,7 @@ export class DriverRepositoryPostgrest implements DriverRepository {
   async remove(id: string): Promise<Driver> {
     const deletedCount = await this.driverEntity.destroy({ where: { id } });
     if (deletedCount === 0) {
-      throw new BadRequestException(`Pokemon with id "${id}" not found`);
+      throw new BadRequestException(`Driver with id "${id}" not found`);
     }
     return;
   }

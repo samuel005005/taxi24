@@ -55,10 +55,17 @@ export class TripRepositoryPostgrest implements TripRepository {
   async completeTrip(idTrip: number) {
     const updatedRows = await this.tripEntity.update(
       { status: 'P' },
-      { where: { id: { [Op.eq]: idTrip } } },
+      {
+        where: {
+          id: { [Op.eq]: idTrip },
+          status: {
+            [Op.eq]: 'PEN',
+          },
+        },
+      },
     );
 
-    if (!updatedRows) {
+    if (updatedRows[0] == 0) {
       throw new BadRequestException(`There is no pending trip with this id`);
     }
   }

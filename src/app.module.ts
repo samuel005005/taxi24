@@ -3,12 +3,14 @@ import { DriversModule } from './drivers/drivers.module';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { TripsModule } from './trips/trips.module';
 import { SeederModule } from 'nestjs-sequelize-seeder';
+import { PassagersModule } from './passengers/passagers.module';
 
 @Module({
   exports: [DriversModule],
   imports: [
     DriversModule,
     TripsModule,
+    PassagersModule,
     SequelizeModule.forRoot({
       dialect: 'postgres',
       host: 'localhost',

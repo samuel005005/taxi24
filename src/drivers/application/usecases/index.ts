@@ -5,6 +5,8 @@ import DeleteDriverUseCase from 'src/drivers/application/usecases/deleteDriver.u
 import CurrentLocationDriverUseCase from 'src/drivers/application/usecases/currentLocationDriver.usecase';
 import GetDriversUseCase from 'src/drivers/application/usecases/getDrivers.usecase';
 import GetDriverUseCase from 'src/drivers/application/usecases/getDriver.usecase';
+import GetNearbyDriverUseCase from 'src/drivers/application/usecases/getNearbyDriver.usecase';
+
 export {
   CreateDriverUseCase,
   GetAvailableDriversUseCase,
@@ -13,4 +15,5 @@ export {
   GetDriversUseCase,
   CurrentLocationDriverUseCase,
   GetDriverUseCase,
+  GetNearbyDriverUseCase,
 };
