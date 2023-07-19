@@ -7,7 +7,7 @@ import { PassagersModule } from './passengers/passagers.module';
 import { InvoicesModule } from './invoices/invoices.module';
 
 @Module({
-  exports: [DriversModule],
+  exports: [DriversModule, InvoicesModule],
   imports: [
     DriversModule,
     TripsModule,

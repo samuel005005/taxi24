@@ -5,7 +5,7 @@ import { TripEntity } from '../entities/trip.entity';
 export default class TripMapper {
   public static DtoToDomain(tripDto: CreateTripDto) {
     const trip = new Trip(
-      tripDto.idPassager,
+      tripDto.idPassenger,
       tripDto.source,
       tripDto.destination,
       tripDto.idDriver,
@@ -17,12 +17,12 @@ export default class TripMapper {
     tripDomain.idDriver = trip.getDriverId;
     tripDomain.source = trip.getSource;
     tripDomain.destination = trip.getDestination;
-    tripDomain.idPassager = trip.getPassaggerId;
+    tripDomain.idPassenger = trip.getPassengerId;
     return tripDomain;
   }
   public static EntityToDomain(tripEntity: TripEntity) {
     const driver = new Trip(
-      tripEntity.idPassager,
+      tripEntity.idPassenger,
       tripEntity.source,
       tripEntity.destination,
       tripEntity.idDriver,
@@ -30,7 +30,6 @@ export default class TripMapper {
       tripEntity.status,
       tripEntity.id,
     );
-
     return driver;
   }
 

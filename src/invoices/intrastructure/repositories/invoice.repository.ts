@@ -23,20 +23,22 @@ export class InvoceRepositoryPostgrest implements InvoiceRepository {
     });
     return InvoiceMapper.EntitiesToDomains(invoces);
   }
-  async getInvoicesByPassenger(idPassager: number): Promise<Invoice[]> {
+  async getInvoicesByPassenger(idPassenger: number): Promise<Invoice[]> {
     const invoces = await this.invoiceEntity.findAll({
       where: {
         status: {
           [Op.not]: 'I',
         },
         idPassenger: {
-          [Op.eq]: idPassager,
+          [Op.eq]: idPassenger,
         },
       },
     });
     return InvoiceMapper.EntitiesToDomains(invoces);
   }
-  generateInvoice(): Promise<Invoice> {
-    throw new Error('Method not implemented.');
+  async generateInvoice(invoce: Invoice): Promise<Invoice> {
+    const invoiceDomain = InvoiceMapper.DomainToEntity(invoce).dataValues;
+    const invoiceEntity = await this.invoiceEntity.create(invoiceDomain);
+    return InvoiceMapper.EntityToDomain(invoiceEntity);
   }
 }

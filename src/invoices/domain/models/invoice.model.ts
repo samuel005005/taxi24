@@ -1,9 +1,9 @@
 export default class Invoice {
   private readonly id?: number;
 
-  private readonly idTravel?: number;
+  private readonly idTrip?: number;
 
-  private readonly idPassager: number;
+  private readonly idPassenger: number;
 
   private readonly amount: number;
 
@@ -12,26 +12,26 @@ export default class Invoice {
   private readonly dateInvoice?: Date;
 
   constructor(
-    idTravel: number,
-    idPassager: number,
+    idTrip: number,
+    idPassenger: number,
     amount: number,
     status?: string,
     dateInvoice?: Date,
     id?: number,
   ) {
     this.id = id;
-    this.idTravel = idTravel;
-    this.idPassager = idPassager;
+    this.idTrip = idTrip;
+    this.idPassenger = idPassenger;
     this.amount = amount;
     this.status = status;
   }
 
   get getIdTravel(): number {
-    return this.idTravel;
+    return this.idTrip;
   }
 
   get getIdPassenger(): number {
-    return this.idPassager;
+    return this.idPassenger;
   }
 
   get getAmount(): number {

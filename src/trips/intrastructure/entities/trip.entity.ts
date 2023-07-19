@@ -26,7 +26,7 @@ export class TripEntity extends Model {
     type: DataType.INTEGER,
     allowNull: false,
   })
-  idPassager: number;
+  idPassenger: number;
 
   @Column({ type: DataType.JSON, allowNull: false, defaultValue: {} })
   source: LocationModel;

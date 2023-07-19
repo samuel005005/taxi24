@@ -20,6 +20,8 @@ import { InvoiceService } from './services/invoice.service';
     PassagersModule,
   ],
   controllers: [InvoiceController],
-  exports: [],
+  exports: [
+    { provide: 'InvoiceRepository', useClass: InvoceRepositoryPostgrest },
+  ],
 })
 export class InfrastructureModule {}

@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { TripRepository } from 'src/trips/domain/contracts/trip.repository';
 import Trip from 'src/trips/domain/models/trip.model';
 import { TripEntity } from '../entities/trip.entity';
@@ -12,9 +16,10 @@ export class TripRepositoryPostgrest implements TripRepository {
     @InjectModel(TripEntity)
     private readonly tripEntity: typeof TripEntity,
   ) {}
+
   async create(trip: Trip): Promise<Trip> {
     const existsTripsAvailable = await this.getTripsPerPassenger(
-      trip.getPassaggerId,
+      trip.getPassengerId,
     );
     if (existsTripsAvailable) {
       throw new BadRequestException(
@@ -27,17 +32,19 @@ export class TripRepositoryPostgrest implements TripRepository {
     );
     return TripMapper.EntityToDomain(tripTemp);
   }
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  generateInvoice(trip: Trip): Promise<Trip> {
-    throw new Error('Method not implemented.');
-  }
 
-  private async getTripsPerPassenger(idPassager: number): Promise<Trip> {
+  private async getTripsPerPassenger(
+    idPassenger: number,
+  ): Promise<Trip | null> {
     const trip = await this.tripEntity.findOne({
       where: {
-        idPassager: idPassager,
+        idPassenger: idPassenger,
+        status: 'PEN',
       },
     });
+    if (!trip) {
+      return;
+    }
     return TripMapper.EntityToDomain(trip);
   }
 
@@ -52,6 +59,22 @@ export class TripRepositoryPostgrest implements TripRepository {
     return TripMapper.EntitiesToDomains(trip);
   }
 
+  async findOne(id: number): Promise<Trip> {
+    const trip = await this.tripEntity.findOne({
+      where: {
+        id: {
+          [Op.eq]: id,
+        },
+        status: {
+          [Op.in]: ['PEN', 'A'],
+        },
+      },
+    });
+    if (!trip) {
+      throw new NotFoundException(`There is no pending trip with the id ${id}`);
+    }
+    return TripMapper.EntityToDomain(trip);
+  }
   async completeTrip(idTrip: number) {
     const updatedRows = await this.tripEntity.update(
       { status: 'P' },

@@ -5,5 +5,6 @@ import { InfrastructureModule } from './intrastructure/infrastructure.module';
 
 @Module({
   imports: [DomainModule, ApplicationModule, InfrastructureModule],
+  exports: [InfrastructureModule],
 })
 export class InvoicesModule {}

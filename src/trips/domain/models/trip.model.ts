@@ -5,7 +5,7 @@ export default class Trip {
 
   private readonly idDriver?: number;
 
-  private readonly idPassager: number;
+  private readonly idPassenger: number;
 
   private readonly dateTrip?: Date;
 
@@ -16,7 +16,7 @@ export default class Trip {
   private readonly status?: string;
 
   constructor(
-    idPassager: number,
+    idPassenger: number,
     source: LocationModel,
     destination: LocationModel,
     idDriver?: number,
@@ -26,7 +26,7 @@ export default class Trip {
   ) {
     this.id = id;
     this.idDriver = idDriver;
-    this.idPassager = idPassager;
+    this.idPassenger = idPassenger;
     this.dateTrip = dateTrip;
     this.source = source;
     this.destination = destination;
@@ -44,7 +44,7 @@ export default class Trip {
   get getDestination(): LocationModel {
     return this.destination;
   }
-  get getPassaggerId(): number {
-    return this.idDriver;
+  get getPassengerId(): number {
+    return this.idPassenger;
   }
 }

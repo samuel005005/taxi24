@@ -7,7 +7,7 @@ export class CreateTripDto {
   idDriver: number;
 
   @IsNumber()
-  idPassager: number;
+  idPassenger: number;
 
   @IsNotEmpty()
   source: LocationModel;
