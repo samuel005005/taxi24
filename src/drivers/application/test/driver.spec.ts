@@ -11,5 +11,6 @@ describe('usescases/driver', () => {
   beforeEach(() => {
     adminUserRepo = {} as DriverRepository;
     adminUserRepo.findAll = jest.fn();
+
   });
 });
