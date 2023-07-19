@@ -30,6 +30,9 @@ git clone git@github.com:samuel005005/taxi24.git
 
 cd taxi24
 
+#Ahora vamos a configurar acceso a bases de datos
+cp .env.example .env
+
 # Despliega el proyecto con Docker
 
 docker-compose up -d --build
@@ -50,12 +53,6 @@ Acceder a la ruta http://localhost:3000/api
 ```bash
 # unit tests
 $ yarn run test
-
-# e2e tests
-$ yarn run test:e2e
-
-# test coverage
-$ yarn run test:cov
 ```
 
 ## Postman File
