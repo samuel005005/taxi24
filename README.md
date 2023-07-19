@@ -52,7 +52,7 @@ Acceder a la ruta http://localhost:3000/api
 
 ```bash
 # unit tests
-$ yarn run test
+$ docker exec nest-docker-postgres yarn run test
 ```
 
 ## Postman File

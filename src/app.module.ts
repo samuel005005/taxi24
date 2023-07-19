@@ -32,7 +32,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
       // Activate this if you want to run the seeders if the table is empty in the database
       runOnlyIfTableIsEmpty: true,
     }),
-    ConfigModule.forRoot({ isGlobal: true }),
+    ConfigModule.forRoot(),
   ],
 })
 export class AppModule {}
