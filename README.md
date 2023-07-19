@@ -5,30 +5,21 @@
 
 ## Requirement
 
+- Docker
+
+## Installation
+
 - Instalar docker para correr la aplicacion
   - Windows (https://docs.docker.com/desktop/install/windows-install/)
   - Linux (https://docs.docker.com/desktop/install/linux-install/)
   - Mac (https://docs.docker.com/desktop/install/mac-install/)
 
-## Installation
+## Running the app
 
 Correr la aplicacion
 
 ```bash
 $ docker-compose up -d --build
-```
-
-## Running the app
-
-```bash
-# development
-$ yarn run start
-
-# watch mode
-$ yarn run start:dev
-
-# production mode
-$ yarn run start:prod
 ```
 
 ## Test
