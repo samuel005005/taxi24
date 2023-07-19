@@ -59,7 +59,8 @@ $ docker exec nest-docker-postgres yarn run test
 
 [Taxi24.json](./Taxi24.postman_collection.json)
 
-- Este archivo permite exportar los endpoint para probarlos.
+- Este archivo permite importar los endpoint para probarlos.
+- Como importarlo a postman : https://learning.postman.com/docs/getting-started/importing-and-exporting-data/
 
 ## Arquitectura del proyecto
 
