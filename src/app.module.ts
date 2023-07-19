@@ -15,7 +15,7 @@ import { InvoicesModule } from './invoices/invoices.module';
     InvoicesModule,
     SequelizeModule.forRoot({
       dialect: 'postgres',
-      host: 'localhost',
+      host: 'postgres',
       port: 5432,
       username: 'postgres',
       password: 'postgres',
