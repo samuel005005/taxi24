@@ -11,7 +11,9 @@ import {
 import { PassengerService } from '../services/driver.service';
 import { CreatePassengerDto } from '../dto/create-passenger.dto';
 import { UpdatePassengerDto } from '../dto/update-passenger.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('passenger')
 @Controller('passenger')
 export class PassengerController {
   constructor(private readonly passengerService: PassengerService) {}

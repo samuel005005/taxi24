@@ -1,7 +1,9 @@
 import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
 import { TripService } from '../services/trip.service';
 import { CreateTripDto } from '../dto/createTripDto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('trip')
 @Controller('trip')
 export class TripController {
   constructor(private readonly tripService: TripService) {}
