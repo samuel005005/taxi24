@@ -12,22 +12,34 @@ import { DriverService } from '../services/driver.service';
 import { CreateDriverDto } from '../dto/create-driver.dto';
 import { UpdateDriverDto } from '../dto/update-driver.dto';
 import { LocationDto } from '../../../shared/intrastructure/dto/location-dto';
-import { ApiTags } from '@nestjs/swagger';
+import {
+  ApiCreatedResponse,
+  ApiNotFoundResponse,
+  ApiOkResponse,
+  ApiTags,
+  ApiUnprocessableEntityResponse,
+} from '@nestjs/swagger';
 @ApiTags('driver')
 @Controller('driver')
 export class DriverController {
   constructor(private readonly driveService: DriverService) {}
 
+  @ApiCreatedResponse({ description: 'Created Succesfully' })
+  @ApiUnprocessableEntityResponse({ description: 'Bad Request' })
   @Post()
   create(@Body() createDriverDto: CreateDriverDto) {
     return this.driveService.create(createDriverDto);
   }
 
+  @ApiOkResponse({ description: 'The resources were returned successfully' })
   @Get()
   findAll() {
     return this.driveService.findAll();
   }
 
+  @ApiOkResponse({ description: 'The resource was updated successfully' })
+  @ApiNotFoundResponse({ description: 'Resource not found' })
+  @ApiUnprocessableEntityResponse({ description: 'Bad Request' })
   @Patch(':term')
   update(
     @Param('term') term: string,
@@ -36,11 +48,15 @@ export class DriverController {
     return this.driveService.update(term, updateDriverDto);
   }
 
+  @ApiNotFoundResponse({ description: 'Resource not found' })
+  @ApiOkResponse({ description: 'The resources were returned successfully' })
   @Delete(':id')
   remove(@Param('id', ParseIntPipe) id: string) {
     return this.driveService.remove(id);
   }
 
+  @ApiCreatedResponse({ description: 'Created Succesfully' })
+  @ApiUnprocessableEntityResponse({ description: 'Bad Request' })
   @Post('location/:id')
   currentLocation(
     @Param('id', ParseIntPipe) idDriver: string,
@@ -52,16 +68,20 @@ export class DriverController {
     );
   }
 
+  @ApiOkResponse({ description: 'The resources were returned successfully' })
   @Get('available/')
   getAvailableDriver() {
     return this.driveService.getAvailableDriver();
   }
 
+  @ApiOkResponse({ description: 'The resources were returned successfully' })
   @Get('nearby/')
   getNearbyDriver(@Body() locationDto: LocationDto) {
     return this.driveService.getNearbyDrivers(locationDto);
   }
 
+  @ApiOkResponse({ description: 'The resources were returned successfully' })
+  @ApiNotFoundResponse({ description: 'Resource not found' })
   @Get(':term')
   findOne(@Param('term') term: string) {
     return this.driveService.findOne(term);

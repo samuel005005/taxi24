@@ -40,7 +40,6 @@ export class DriverRepositoryPostgrest implements DriverRepository {
         `Can't create Driver, please contact the system administrator`,
       );
     }
-
     return;
   }
 

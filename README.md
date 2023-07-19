@@ -39,6 +39,12 @@ Listo! 🚀
 
 Accede a Taxi24 en http://localhost:3000
 
+## Para ver la documentacion del servicio (como se debe consumir)
+
+Acceder a la ruta http://localhost:3000/api
+
+(luego de haber desplegado el ambiente).
+
 ## Test
 
 ```bash
@@ -51,3 +57,34 @@ $ yarn run test:e2e
 # test coverage
 $ yarn run test:cov
 ```
+
+## Postman File
+
+[Taxi24.json](./Taxi24.postman_collection.json)
+
+- Este archivo permite exportar los endpoint para probarlos.
+
+## Arquitectura del proyecto
+
+Este proyecto esta compuesto por 5 modulos:
+
+- Driver
+  - Domain (Modelos, Contratos, etc)
+  - Application (Casos de usos de la aplicacion)
+  - Infrasturure (Todo lo externo, como librerias de terceros o el framework mismo.)
+- Invoices
+  - Domain (Modelos, Contratos, etc)
+  - Application (Casos de usos de la aplicacion)
+  - Infrasturure (Todo lo externo, como librerias de terceros o el framework mismo.)
+- Trip
+  - Domain (Modelos, Contratos, etc)
+  - Application (Casos de usos de la aplicacion)
+  - Infrasturure (Todo lo externo, como librerias de terceros o el framework mismo.)
+- Passengers
+  - Domain (Modelos, Contratos, etc)
+  - Application (Casos de usos de la aplicacion)
+  - Infrasturure (Todo lo externo, como librerias de terceros o el framework mismo.)
+- Shared
+  - Domain (Modelos, Contratos, etc)
+  - Application (Casos de usos de la aplicacion)
+  - Infrasturure (Todo lo externo, como librerias de terceros o el framework mismo.)
